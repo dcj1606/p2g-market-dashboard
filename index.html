@@ -602,19 +602,19 @@
   <script>
     const CONFIG = {
       // ▼▼ PASTE YOUR GOOGLE SHEET ID HERE (see README for instructions) ▼▼
-      SHEET_ID: 1EWminnPJhrh1fVGMjznTz- 7kqiy8gqLgUBCd03WuhCA,
+      SHEET_ID: '1EWminnPJhrh1fVGMjznTz-7kqiy8gqLgUBCd03WuhCA',
       // ▲▲ everything else is automatic ▲▲
 
       // Derived URLs (do not edit)
-      get MONTHLY_URL() {
+      get MONTHLY_URL()
         return `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=monthly`;
-      },
-        get SNAPSHOT_URL() {
-      return `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=snapshot`;
     },
+      get SNAPSHOT_URL() {
+        return `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=snapshot`;
+      },
 
-    // Auto-refresh interval in milliseconds (default: 30 minutes)
-    REFRESH_INTERVAL_MS: 30 * 60 * 1000,
+        // Auto-refresh interval in milliseconds (default: 30 minutes)
+        REFRESH_INTERVAL_MS: 30 * 60 * 1000,
     };
   </script>
 
