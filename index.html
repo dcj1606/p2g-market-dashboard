@@ -923,7 +923,9 @@
      ════════════════════════════════════════════════════════════════ -->
   <script>
     'use strict';
-
+    
+  var charts = {};
+    
     Chart.defaults.font.family = "'DM Sans', sans-serif";
     const gc = 'rgba(26,24,20,0.07)';
     const tc = '#8a8480';
@@ -957,8 +959,6 @@
       return isNaN(n) ? null : n;
     }
 
-    // ── Chart instances (kept for destroy/re-create on refresh) ───────────
-    const charts = {};
 
     function destroyChart(id) {
       if (charts[id]) { charts[id].destroy(); delete charts[id]; }
