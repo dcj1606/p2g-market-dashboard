@@ -613,7 +613,11 @@
         return `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=snapshot&headers=1`;
       },
 
-        // Auto-refresh interval in milliseconds (default: 30 minutes)
+              get CONTENT_URL() {
+        return `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=content&headers=1`;
+      },
+
+      // Auto-refresh interval in milliseconds (default: 30 minutes)
         REFRESH_INTERVAL_MS: 30 * 60 * 1000,
     }
   </script>
@@ -868,7 +872,7 @@
       <span class="section-sub" id="s7-sub">Current month lens</span>
     </div>
 
-    <div class="impact-grid">
+    <div class="impact-grid" id="s7-content">
       <div class="impact-card rc">
         <div class="impact-head">🔴 Volume suppressors — active</div>
         <ul>
@@ -1185,6 +1189,26 @@
       });
     })();
 
+    // ── Render Section 7 from content sheet ──────────────────────────────
+    function renderS7(rows) {
+      const s7 = rows.filter(r => r.section === 's7' && r.category && r.text);
+      if (!s7.length) return; // no data — leave hardcoded content intact
+      const cats = {
+        red:   { cls: 'rc', head: '🔴 Volume suppressors — active',      items: [] },
+        amber: { cls: 'ac', head: '🟡 Structural headwinds — ongoing',   items: [] },
+        green: { cls: 'gc', head: '🟢 Tailwinds — holding firm',         items: [] },
+        note:  { cls: 'nc', head: '📌 Smart Send cohort — watch points', items: [] },
+      };
+      s7.forEach(r => { if (cats[r.category]) cats[r.category].items.push(r.text); });
+      const html = Object.values(cats)
+        .filter(c => c.items.length)
+        .map(c => `<div class="impact-card ${c.cls}">
+          <div class="impact-head">${c.head}</div>
+          <ul>${c.items.map(t => `<li>${t}</li>`).join('')}</ul>
+        </div>`).join('');
+      if (html) document.getElementById('s7-content').innerHTML = html;
+    }
+
     // ── Fetch & render from Google Sheets ─────────────────────────────────
     async function loadData() {
       const banner = document.getElementById('loading-banner');
@@ -1238,6 +1262,12 @@
         }));
 
         buildDashboard(monthly, snapshot);
+
+        // Section 7 content — optional; silently skipped if sheet tab doesn't exist yet
+        try {
+          const contentRes = await fetch(CONFIG.CONTENT_URL);
+          if (contentRes.ok) renderS7(parseCSV(await contentRes.text()));
+        } catch (_) { /* content sheet not set up yet — hardcoded fallback stays */ }
 
         banner.classList.add('hidden');
         dot.classList.remove('stale');
