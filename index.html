@@ -152,6 +152,20 @@
       gap: 8px;
     }
 
+        #refresh-btn {
+      background: none;
+      border: 1px solid rgba(26,24,20,0.2);
+      border-radius: 4px;
+      color: #8a8480;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 2px 7px;
+      margin-left: 8px;
+      font-family: inherit;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    #refresh-btn:hover { border-color: rgba(26,24,20,0.5); color: #1a1814; }
+    #refresh-btn:active { opacity: 0.6; }
     .refresh-dot {
       width: 6px;
       height: 6px;
@@ -645,6 +659,7 @@
       <span class="refresh-info">
         <span class="refresh-dot" id="refresh-dot"></span>
         <span id="last-updated">—</span>
+        <button id="refresh-btn" onclick="loadData()" title="Refresh data from Google Sheets">↻ Refresh</button>
       </span>
     </div>
   </div>
@@ -1283,7 +1298,6 @@
 
     // ── Auto-refresh ──────────────────────────────────────────────────────
     loadData();
-    setInterval(loadData, CONFIG.REFRESH_INTERVAL_MS);
   </script>
 </body>
 
