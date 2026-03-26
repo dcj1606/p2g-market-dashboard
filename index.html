@@ -606,7 +606,7 @@
       // ▲▲ everything else is automatic ▲▲
 
       // Derived URLs (do not edit)
-      get MONTHLY_URL()
+      get MONTHLY_URL() {
         return `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/gviz/tq?tqx=out:csv&sheet=monthly`;
     },
       get SNAPSHOT_URL() {
