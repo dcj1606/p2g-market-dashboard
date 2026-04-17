@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Parcel2Go Market Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1814;
+      --ink-mid: #4a4640;
+      --ink-soft: #8a8480;
+      --paper: #f7f4ef;
+      --paper-warm: #ede9e2;
+      --amber: #b5600a;
+      --amber-light: #fdf0e0;
+      --red: #c8392b;
+      --red-light: #fde8e6;
+      --rule: rgba(26, 24, 20, 0.1);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .masthead {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 28px 48px 24px;
+      border-bottom: 3px solid var(--amber);
+    }
+
+    .masthead-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6a6660;
+      margin-bottom: 10px;
+    }
+
+    .masthead-title {
+      font-family: 'Fraunces', serif;
+      font-size: 30px;
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--paper);
+    }
+
+    .masthead-title em {
+      font-style: italic;
+      color: #f0b87a;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 40px 44px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 2px 8px rgba(26,24,20,0.06);
+    }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 6px;
+    }
+
+    .card-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 28px;
+    }
+
+    .error-banner {
+      background: var(--red-light);
+      border: 1px solid var(--red);
+      border-radius: 3px;
+      color: var(--red);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error-banner.visible { display: block; }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--amber);
+      background: #fff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 11px;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .submit-btn:hover { background: #2e2b26; }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-soft);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+  <div class="masthead">
+    <div class="masthead-eyebrow">Parcel2Go — Market Intelligence Brief</div>
+    <div class="masthead-title">UK Retail &amp; Parcel Market<br><em>Board Dashboard</em></div>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <div class="card-title">Sign in</div>
+      <div class="card-sub">Restricted access</div>
+
+      <div class="error-banner" id="error-banner">
+        Invalid username or password. Please try again.
+      </div>
+
+      <form method="POST" action="/api/login">
+        <input type="hidden" name="next" id="next-field" value="/">
+
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" autocomplete="username" autofocus required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="submit-btn">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">Parcel2Go &copy; 2025 — Internal use only</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('error')) {
+      document.getElementById('error-banner').classList.add('visible');
+    }
+    const next = params.get('next');
+    if (next && next.startsWith('/')) {
+      document.getElementById('next-field').value = next;
+    }
+  </script>
+</body>
+</html>

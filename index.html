@@ -165,6 +165,20 @@
       transition: border-color 0.15s, color 0.15s;
     }
     #refresh-btn:hover { border-color: rgba(26,24,20,0.5); color: #1a1814; }
+
+    #signout-btn {
+      background: none;
+      border: none;
+      color: #6a6660;
+      cursor: pointer;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+      padding: 0;
+      margin-left: 16px;
+      text-decoration: none;
+    }
+    #signout-btn:hover { color: #f0b87a; }
     #refresh-btn:active { opacity: 0.6; }
     .refresh-dot {
       width: 6px;
@@ -660,6 +674,7 @@
         <span class="refresh-dot" id="refresh-dot"></span>
         <span id="last-updated">—</span>
         <button id="refresh-btn" onclick="loadData()" title="Refresh data from Google Sheets">↻ Refresh</button>
+        <a id="signout-btn" href="/api/logout" title="Sign out">Sign out</a>
       </span>
     </div>
   </div>
