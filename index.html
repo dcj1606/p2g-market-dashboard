@@ -135,6 +135,20 @@
       color: #f0b87a;
     }
 
+        #data-status {
+      background: rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.65);
+      padding: 6px 32px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    #data-status .status-current { color: #a8d5a2; }
+    #data-status .status-due { color: #f0b87a; }
+    #data-status .status-sep { opacity: 0.3; }
     .masthead-meta {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
@@ -664,7 +678,15 @@
     </div>
   </div>
 
-  <div class="page">
+  <div id="data-status">
+    <span>📊 <span class="status-current" id="status-current">Data current as of —</span></span>
+    <span class="status-sep">|</span>
+    <span>🗓 <span class="status-due" id="status-due">Next update: —</span></span>
+    <span class="status-sep">|</span>
+    <span id="status-note" style="opacity:0.5">—</span>
+  </div>
+
+    <div class="page">
 
     <!-- SECTION 1: SNAPSHOT -->
     <div class="section-head">
@@ -1268,15 +1290,27 @@
         const rawSnap = parseCSV(snapshotCSV);
 
         // Map snapshot rows → { key, value, sub, color, label }
-        const snapshot = rawSnap.map(r => ({
-          key: r.metric_key,
-          value: r.display_value,
-          sub: r.sub_text,
-          color: r.color_class,
-          label: r.label,
-        }));
+        // next_update row drives the status bar — filter it out before passing to buildDashboard
+        const nextUpdateRow = rawSnap.find(r => r.metric_key === 'next_update');
+        const snapshot = rawSnap
+          .filter(r => r.metric_key !== 'next_update')
+          .map(r => ({
+            key: r.metric_key,
+            value: r.display_value,
+            sub: r.sub_text,
+            color: r.color_class,
+            label: r.label,
+          }));
 
         buildDashboard(monthly, snapshot);
+
+        // Populate data status bar (after buildDashboard so dash-period is set)
+        if (nextUpdateRow) {
+          const lastLabel = (document.getElementById('dash-period')?.textContent || '').replace(' in context','');
+          document.getElementById('status-current').textContent = 'Data current as of ' + (lastLabel || '—');
+          document.getElementById('status-due').textContent = 'Next update: ' + (nextUpdateRow.display_value || '—');
+          document.getElementById('status-note').textContent = nextUpdateRow.sub_text || '';
+        }
 
         // Section 7 content — optional; silently skipped if sheet tab doesn't exist yet
         try {
