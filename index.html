@@ -109,7 +109,7 @@
     .masthead {
       background: #002060;
       color: #fff;
-      padding: 16px 48px 0;
+      padding: 22px 48px 0;
     }
 
     .masthead-logo-row {
@@ -134,7 +134,8 @@
     .masthead-eyebrow {
       font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
       font-size: 11px;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
       letter-spacing: 0.2px;
     }
 
@@ -157,12 +158,12 @@
 
     .masthead-title {
       font-family: 'Bricolage Grotesque', 'Segoe UI', Arial, sans-serif;
-      font-size: 27px;
+      font-size: 34px;
       font-weight: 800;
       line-height: 1.1;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.8px;
       color: #fff;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .masthead-title em {
@@ -192,12 +193,13 @@
     #data-status .status-sep { opacity: 0.3; }
     .masthead-meta {
       font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-      font-size: 11px;
-      color: #6a6660;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
       display: flex;
-      gap: 24px;
+      gap: 14px;
       flex-wrap: wrap;
       align-items: center;
+      padding-bottom: 14px;
     }
 
     .refresh-info {
@@ -236,7 +238,7 @@
     .page {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 32px 48px 80px;
+      padding: 24px 48px 60px;
     }
 
     .section-head {
@@ -244,7 +246,7 @@
       display: flex;
       align-items: baseline;
       gap: 16px;
-      margin: 40px 0 18px;
+      margin: 28px 0 16px;
       padding-bottom: 10px;
       overflow: visible;
     }
@@ -689,7 +691,7 @@
       </div>
       <div class="masthead-actions">
         <span class="masthead-badge">Board dashboard</span>
-        <button id="refresh-btn" onclick="loadData()" title="Refresh data from Google Sheets">↻ Refresh</button>
+        <button id="refresh-btn" onclick="loadData()" title="Refresh data from Google Sheets">&#8635; Refresh</button>
       </div>
     </div>
     <div class="masthead-title" id="dash-title">UK Retail &amp; Parcel Market — <em id="dash-period">Loading…</em></div>
