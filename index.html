@@ -1290,10 +1290,20 @@
         const rawSnap = parseCSV(snapshotCSV);
 
         // Map snapshot rows → { key, value, sub, color, label }
-        // next_update row drives the status bar — filter it out before passing to buildDashboard
-        const nextUpdateRow = rawSnap.find(r => r.metric_key === 'next_update');
+        // next_update drives the status bar. Guard against tab-embedded CSV rows
+        // (gviz quirk when cells entered via keyboard Tab in Sheets).
+        rawSnap.forEach(r => {
+          const key = (r.metric_key || '').trim();
+          if (key.startsWith('next_update') && key.length > 'next_update'.length) {
+            const parts = key.split('\t');
+            r.metric_key    = 'next_update';
+            r.display_value = (parts[1] || r.display_value || '').trim();
+            r.sub_text      = (parts[2] || r.sub_text || '').trim();
+          }
+        });
+        const nextUpdateRow = rawSnap.find(r => (r.metric_key || '').trim() === 'next_update');
         const snapshot = rawSnap
-          .filter(r => r.metric_key !== 'next_update')
+          .filter(r => (r.metric_key || '').trim() !== 'next_update')
           .map(r => ({
             key: r.metric_key,
             value: r.display_value,
